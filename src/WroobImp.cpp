@@ -9,7 +9,7 @@
 
 WroobImp *WroobImp::obj = NULL;
 
-WroobImp::WroobImp() : registered(false), userClbkFun(NULL) {
+WroobImp::WroobImp(char *type) : registered(false), userClbkFun(NULL), moduleType(type) {
     //jsonDataIn(MAX_IMP_MESSAGE), jsonDataOut(MAX_IMP_MESSAGE) {
     //empty
 }
@@ -84,7 +84,7 @@ unsigned long WroobImp::computeLength(char *buff, int size) {
     reverseBytes(buff, size);
     memcpy(&messageLen, buff, size);
 
-    if (messageLen > MAX_IMP_MESSAGE) {
+    if (messageLen > MAX_IMP_IN_MESSAGE) {
         return -1;
     }
 
@@ -130,7 +130,7 @@ void WroobImp::sendJsonDataOut() {
     char length[LENGTH_SIZE];
     unsigned long msgLen =  measureJson(jsonDataOut);
 
-    if (msgLen > MAX_IMP_MESSAGE)
+    if (msgLen > MAX_IMP_OUT_MESSAGE)
         return;
 
     memcpy(length, &msgLen, LENGTH_SIZE);
@@ -182,7 +182,7 @@ void WroobImp::createRegisterMsg() {
     jsonDataOut[F("top")] = F("register");
     jsonDataOut[F("pl")][F("pub_id")] = pubId;
     jsonDataOut[F("pl")][F("sub_id")] = subId;
-    jsonDataOut[F("pl")][F("type")] = F(MODULE_TYPE);
+    jsonDataOut[F("pl")][F("type")] = moduleType;
 }
 
 void WroobImp::createPing() {

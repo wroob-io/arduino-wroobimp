@@ -19,19 +19,20 @@
 #define LENGTH_SIZE 4    // number of bytes describing msg length
 #define PING_PERIOD 750000  // ping message is sent with 750ms period
 
-#ifndef MAX_IMP_MESSAGE
-#define MAX_IMP_MESSAGE 200
+#ifndef MAX_IMP_IN_MESSAGE
+#define MAX_IMP_IN_MESSAGE 213
 #endif
-
+#ifndef MAX_IMP_OUT_MESSAGE
+#define MAX_IMP_OUT_MESSAGE 140
+#endif
 #define HW_MODULE_ID_PART 1
 #define ARDUINO_ID_PART   10
-#define MODULE_TYPE "ABM"
 
 typedef void (*userCallbackType)(JsonObject &payload);
 
 class WroobImp {
 public:
-    WroobImp();
+    WroobImp(char *type);
 
     void begin(userCallbackType clbk);
     void feed();
@@ -57,10 +58,11 @@ private:
     void createMsg(JsonDocument &payload);
 
     userCallbackType userClbkFun;
-    StaticJsonDocument<MAX_IMP_MESSAGE> jsonDataIn;
-    StaticJsonDocument<MAX_IMP_MESSAGE> jsonDataOut;
+    StaticJsonDocument<MAX_IMP_IN_MESSAGE> jsonDataIn;
+    StaticJsonDocument<MAX_IMP_OUT_MESSAGE> jsonDataOut;
     char subId[12];
     char pubId[13];
+    char *moduleType;
 
     bool registered;
     static WroobImp *obj;
