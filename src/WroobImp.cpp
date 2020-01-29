@@ -10,7 +10,6 @@
 WroobImp *WroobImp::obj = NULL;
 
 WroobImp::WroobImp(char *type) : registered(false), userClbkFun(NULL), moduleType(type) {
-    //jsonDataIn(MAX_IMP_MESSAGE), jsonDataOut(MAX_IMP_MESSAGE) {
     //empty
 }
 
@@ -40,7 +39,7 @@ void WroobImp::feed() {
 }
 
 int WroobImp::readSize() {
-    int count, len;
+    int count;
     char length[LENGTH_SIZE];
 
     if (!Serial.available()) {
@@ -52,13 +51,13 @@ int WroobImp::readSize() {
         return 0;
     }
 
-    len = computeLength(length, LENGTH_SIZE);
-    if (len < 0) {
+    count = computeLength(length, LENGTH_SIZE);
+    if (count < 0) {
         purgeInputStream();
         return 0;
     }
 
-    return len;
+    return count;
 }
 
 int WroobImp::readBody() {
@@ -105,7 +104,6 @@ void WroobImp::reverseBytes(void *start, int size) {
 
 void WroobImp::createIdValues(char *in, char *out) {
     unsigned char buf[4];
-    uint32_t id = 0;
 
     buf[0] = (HW_MODULE_ID_PART << 4) + (ARDUINO_ID_PART >> 4);
     buf[1] = ((0x0F & ARDUINO_ID_PART) << 4) + (0x0F & UniqueID8[2]);
@@ -146,8 +144,7 @@ void WroobImp::handleIncomingMSg() {
     }
 
     //Check if this is result for register request
-    String res = jsonDataIn["pl"]["result"];
-    if (res != NULL && res == "OK") {
+    if (!jsonDataIn["pl"]["result"].isNull() && strcmp(jsonDataIn["pl"]["result"], "OK") == 0) {
         registered = true;
         return;
     }
@@ -158,7 +155,6 @@ void WroobImp::handleIncomingMSg() {
 
     //Otherwise pass payload to user
     JsonObject plObj = jsonDataIn.getMember("pl").as<JsonObject>();
-    String cmd = plObj["cmd"];
     userClbkFun(plObj);
 }
 
@@ -178,23 +174,23 @@ void WroobImp::wroobRoutine() {
 
 void WroobImp::createRegisterMsg() {
     jsonDataOut.clear();
-    jsonDataOut[F("act")] = 1;
-    jsonDataOut[F("top")] = F("register");
-    jsonDataOut[F("pl")][F("pub_id")] = pubId;
-    jsonDataOut[F("pl")][F("sub_id")] = subId;
-    jsonDataOut[F("pl")][F("type")] = moduleType;
+    jsonDataOut["act"] = 1;
+    jsonDataOut["top"] = "register";
+    jsonDataOut["pl"]["pub_id"] = pubId;
+    jsonDataOut["pl"]["sub_id"] = subId;
+    jsonDataOut["pl"]["type"] = moduleType;
 }
 
 void WroobImp::createPing() {
     jsonDataOut.clear();
-    jsonDataOut[F("act")] = 1;
-    jsonDataOut[F("top")] = pubId;
-    jsonDataOut[F("pl")][F("cmd")] = F("ping");
+    jsonDataOut["act"] = 1;
+    jsonDataOut["top"] = pubId;
+    jsonDataOut["pl"]["cmd"] = "ping";
 }
 
 void WroobImp::createMsg(JsonDocument &payload) {
     jsonDataOut.clear();
-    jsonDataOut[F("act")] = 1;
-    jsonDataOut[F("top")] = pubId;
-    jsonDataOut[F("pl")] = payload;
+    jsonDataOut["act"] = 1;
+    jsonDataOut["top"] = pubId;
+    jsonDataOut["pl"] = payload;
 }
