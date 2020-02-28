@@ -110,8 +110,8 @@ void WroobImp::createIdValues(char *in, char *out) {
     buf[2] = UniqueID8[4];
     buf[3] = UniqueID8[6];
 
-    sprintf(in, "%X%X%X%X_in", buf[0], buf[1], buf[2], buf[3]);
-    sprintf(out, "%X%X%X%X_out", buf[0], buf[1], buf[2], buf[3]);
+    sprintf(in, "%02X%02X%02X%02X_in", buf[0], buf[1], buf[2], buf[3]);
+    sprintf(out, "%02X%02X%02X%02X_out", buf[0], buf[1], buf[2], buf[3]);
 }
 
 void WroobImp::sendRegister() {

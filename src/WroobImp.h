@@ -25,8 +25,8 @@
 #ifndef MAX_IMP_OUT_MESSAGE
 #define MAX_IMP_OUT_MESSAGE 140
 #endif
-#define HW_MODULE_ID_PART 1
-#define ARDUINO_ID_PART   10
+#define HW_MODULE_ID_PART 0
+#define ARDUINO_ID_PART   7
 
 typedef void (*userCallbackType)(JsonObject &payload);
 
