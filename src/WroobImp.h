@@ -18,6 +18,7 @@
 #define READ_TMEOUT 500  // timeout for reading from UART
 #define LENGTH_SIZE 4    // number of bytes describing msg length
 #define PING_PERIOD 750000  // ping message is sent with 750ms period
+#define REGISTER_PERIOD 1200000  // register message is sent with 1200ms period
 
 #ifndef MAX_IMP_IN_MESSAGE
 #define MAX_IMP_IN_MESSAGE 213

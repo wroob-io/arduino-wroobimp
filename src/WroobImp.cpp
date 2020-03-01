@@ -22,7 +22,7 @@ void WroobImp::begin(userCallbackType clbk) {
 
     Serial.begin(BAUDRATE);
     Serial.setTimeout(READ_TMEOUT);
-    Timer1.initialize(PING_PERIOD);
+    Timer1.initialize(REGISTER_PERIOD);
     Timer1.attachInterrupt(wroobRoutine);
 }
 
@@ -145,6 +145,11 @@ void WroobImp::handleIncomingMSg() {
 
     //Check if this is result for register request
     if (!jsonDataIn["pl"]["result"].isNull() && strcmp(jsonDataIn["pl"]["result"], "OK") == 0) {
+        if (!registered) {
+            Timer1.restart();
+            Timer1.setPeriod(PING_PERIOD);
+        }
+
         registered = true;
         return;
     }
