@@ -143,6 +143,17 @@ void WroobImp::handleIncomingMSg() {
         return;
     }
 
+    //Check if this is event for system reset
+    if (!jsonDataIn["pl"]["ev"].isNull() && strcmp(jsonDataIn["pl"]["ev"], "started") == 0) {
+        if (registered) {
+            Timer1.restart();
+            Timer1.setPeriod(REGISTER_PERIOD);
+        }
+
+        registered = false;
+        return;
+    }
+
     //Check if this is result for register request
     if (!jsonDataIn["pl"]["result"].isNull() && strcmp(jsonDataIn["pl"]["result"], "OK") == 0) {
         if (!registered) {
