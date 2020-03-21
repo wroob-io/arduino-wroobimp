@@ -15,7 +15,7 @@
 #include "TimerOne.h"
 
 #define BAUDRATE 115200  // UART communication baudrate
-#define READ_TMEOUT 500  // timeout for reading from UART
+#define READ_TMEOUT 10  // timeout for reading from UART
 #define LENGTH_SIZE 4    // number of bytes describing msg length
 #define PING_PERIOD 750000  // ping message is sent with 750ms period
 #define REGISTER_PERIOD 1200000  // register message is sent with 1200ms period
