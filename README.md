@@ -4,7 +4,7 @@ This library implements Wroob Inter-Module-Protocol. It transforms any Arduino p
 
 ## Wroob system
 
-[Wroob](https://wroob.io) is an environment allowing to create complex systems based on functional modules. Its main core is a mobile application which switches any Android device into system CPU. User can use any of in-built [Wroob mobules](https://wroob.io/#section-info) providing some less or more complex functionalities (like audio processing, video processing, speech synthesis, speech recognition) and/or connect Android device via USB to Arduino board and develop Arduino based own customized Wroob module using **WroobImp** library.
+[Wroob](https://wroob.io) is an environment allowing to create complex systems based on functional modules. Its main core is a mobile application which switches any Android device into system CPU. User can use any of in-built [Wroob modules](https://wroob.io/#section-info) providing some less or more complex functionalities (like audio processing, video processing, speech synthesis, speech recognition) and/or connect Android device via USB to Arduino board and develop Arduino based own customized Wroob module using **WroobImp** library.
 
 ## Installation
 
