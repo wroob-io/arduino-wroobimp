@@ -1,6 +1,6 @@
 # WroobImp
 
-This library implements Wroob Inter-Module-Protocol. It transforms any Arduino project into [Wroob](https://wroob.io) system compatible custom peripheral module. WroobImp library provides simple API for registering into Wroob system and messaging between Wroob broker and created module. Thanks to that you can control your Arduino board via high-level serial protocol from Android device with Wroob mobile app.
+This library implements Wroob Inter-Module-Protocol. It transforms any Arduino project into [Wroob](https://wroob.io) system compatible custom peripheral module. WroobImp library provides simple API for registering into Wroob system and messaging between Wroob broker and created module. Thanks to that you can connect Arduino board to your smartphone or tablet (using UART-USB converter) and control Arduino via high-level serial protocol from Android device with Wroob mobile app.
 
 ## Wroob system
 
