@@ -1,10 +1,10 @@
-# WroobImp
+# WroobIMP
 
-This library implements Wroob Inter-Module-Protocol. It transforms any Arduino project into [Wroob](https://wroob.io) system compatible custom peripheral module. WroobImp library provides simple API for registering into Wroob system and messaging between Wroob broker and created module. Thanks to that you can connect Arduino board to your smartphone or tablet (using UART-USB converter) and control Arduino via high-level serial protocol from Android device with Wroob mobile app.
+This library implements Wroob Inter-Module Protocol. It transforms any Arduino project into [Wroob](http://wroob.io) system compatible custom peripheral module. WroobIMP library provides simple API for registering an Arduino device in Wroob system and messaging between Wroob broker and created module. Thanks to that you can connect Arduino board to your smartphone or tablet (using built-in USB or UART-USB converter and UART pins) and control Arduino via high-level serial protocol from Android device with Wroob mobile app.
 
 ## Wroob system
 
-[Wroob](https://wroob.io) is an environment allowing to create complex systems based on functional modules. Its main core is a mobile application which switches any Android device into system CPU. User can use any of in-built [Wroob modules](https://wroob.io/#section-info) providing some less or more complex functionalities (like audio processing, video processing, speech synthesis, speech recognition) and/or connect Android device via USB to Arduino board and develop Arduino based own customized Wroob module using **WroobImp** library.
+[Wroob](http://wroob.io) is an environment allowing to create complex systems based on functional modules. Its main core is a mobile application which switches any Android device into system CPU. User can use any of in-built [Wroob modules](https://wroob.io/#section-info) providing some less or more complex functionalities (like audio processing, video processing, speech synthesis, speech recognition) and/or connect Android device via USB to Arduino board and develop Arduino based own customized Wroob module using **WroobIMP** library.
 
 ## Installation
 
