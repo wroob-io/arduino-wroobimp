@@ -39,6 +39,7 @@ void my_callback(JsonObject &payload) {
   // handle payload: {"cmd": "get_pin"} - send GPIO state back
   if (payload["cmd"] == "get_pin") {
     event.clear();
+    event["ev"] = "get_pin";
     event["value"] = digitalRead(PIN_IN);
     wroob.sendMessage(event);
 
