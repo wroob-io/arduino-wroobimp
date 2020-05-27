@@ -11,7 +11,8 @@
 
 // WroobImp constructor takes a "type"
 // of your new Wroob module as an argument
-WroobImp wroob("abcd");
+// eam - example arduino module
+WroobImp wroob("eam");
 
 // init JSON object for creating outgoing messages
 StaticJsonDocument<80> event;
@@ -25,7 +26,7 @@ void my_callback(JsonObject &payload) {
   }
 
   // handle payload: {"cmd": "set_pin", "value": X}
-  if (payload["cmd"] == "set_pin" && !payload["value"].isNull()) {
+  if (payload["cmd"] == "SetPin" && !payload["value"].isNull()) {
     if (payload["value"] == 1) {
       digitalWrite(PIN_OUT, HIGH);
     } 
@@ -37,9 +38,9 @@ void my_callback(JsonObject &payload) {
   }
 
   // handle payload: {"cmd": "get_pin"} - send GPIO state back
-  if (payload["cmd"] == "get_pin") {
+  if (payload["cmd"] == "GetPin") {
     event.clear();
-    event["ev"] = "get_pin";
+    event["ev"] = "GetPin";
     event["value"] = digitalRead(PIN_IN);
     wroob.sendMessage(event);
 
