@@ -9,10 +9,10 @@
 
 WroobImp *WroobImp::obj = NULL;
 
-WroobImp::WroobImp(int typeId, char *type) : registered(false), 
+WroobImp::WroobImp(int typeId, char *typeStr) : registered(false), 
 											  userClbkFun(NULL), 
 											  moduleTypeId(typeId), 
-											  moduleType(type) {
+											  moduleTypeStr(typeStr) {
     //empty
 }
 
@@ -108,7 +108,7 @@ void WroobImp::reverseBytes(void *start, int size) {
 void WroobImp::createIdValues(char *in, char *out) {
     unsigned char buf[4];
 
-    buf[0] = (HW_MODULE_ID_PART << 4) + (moduleTypeId >> 4);
+    buf[0] = (WROOB_MODULE_IMPLEMENTATION_TYPE_ARDUINO << 4) + (moduleTypeId >> 4);
     buf[1] = ((0x0F & moduleTypeId) << 4) + (0x0F & UniqueID8[2]);
     buf[2] = UniqueID8[4];
     buf[3] = UniqueID8[6];
@@ -197,7 +197,7 @@ void WroobImp::createRegisterMsg() {
     jsonDataOut["top"] = "register";
     jsonDataOut["pl"]["pub_id"] = pubId;
     jsonDataOut["pl"]["sub_id"] = subId;
-    jsonDataOut["pl"]["type"] = moduleType;
+    jsonDataOut["pl"]["type"] = moduleTypeStr;
 }
 
 void WroobImp::createPing() {

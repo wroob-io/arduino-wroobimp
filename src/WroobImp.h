@@ -26,13 +26,13 @@
 #ifndef MAX_IMP_OUT_MESSAGE
 #define MAX_IMP_OUT_MESSAGE 140
 #endif
-#define HW_MODULE_ID_PART 0
+#define WROOB_MODULE_IMPLEMENTATION_TYPE_ARDUINO 3
 
 typedef void (*userCallbackType)(JsonObject &payload);
 
 class WroobImp {
 public:
-    WroobImp(int typeId, char *type);
+    WroobImp(int typeId, char *typeStr);
 
     void begin(userCallbackType clbk);
     void feed();
@@ -62,7 +62,7 @@ private:
     StaticJsonDocument<MAX_IMP_OUT_MESSAGE> jsonDataOut;
     char subId[12];
     char pubId[13];
-    char *moduleType;
+    char *moduleTypeStr;
 	int moduleTypeId;
 
     bool registered;

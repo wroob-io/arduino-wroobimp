@@ -6,13 +6,23 @@
 
 #include <WroobImp.h>
 
+// A Wroob module has a numerical type ID and a type string.
+
+// A type ID is a 8-bit number from range 128-255.
+// A type string is a lowercase, letters-only human readable value,
+// which should be tightly coupled with the type ID (1 to 1 mapping).
+// When one value changes, the second should too.
+// Usually the type string is an abbreviation of full module name, e.g.:
+// "Example Arduino Module" -> "eam"
+
+#define WROOB_MODULE_TYPE_ID  128
+#define WROOB_MODULE_TYPE_STR "eam"
+
 #define PIN_OUT 13
 #define PIN_IN  14
 
-// WroobImp constructor takes a "type"
-// of your new Wroob module as an argument
-// eam - example arduino module
-WroobImp wroob(128, "eam");
+// WroobImp constructor takes "typeId" and "typeStr" arguments
+WroobImp wroob(WROOB_MODULE_TYPE_ID, WROOB_MODULE_TYPE_STR);
 
 // init JSON object for creating outgoing messages
 StaticJsonDocument<80> event;
@@ -25,7 +35,7 @@ void my_callback(JsonObject &payload) {
     return;
   }
 
-  // handle payload: {"cmd": "set_pin", "value": X}
+  // handle payload: {"cmd": "SetPin", "value": X}
   if (payload["cmd"] == "SetPin" && !payload["value"].isNull()) {
     if (payload["value"] == 1) {
       digitalWrite(PIN_OUT, HIGH);
@@ -37,7 +47,7 @@ void my_callback(JsonObject &payload) {
     return;
   }
 
-  // handle payload: {"cmd": "get_pin"} - send GPIO state back
+  // handle payload: {"cmd": "GetPin"} - send GPIO state back
   if (payload["cmd"] == "GetPin") {
     event.clear();
     event["ev"] = "GetPin";
