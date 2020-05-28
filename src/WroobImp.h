@@ -27,13 +27,12 @@
 #define MAX_IMP_OUT_MESSAGE 140
 #endif
 #define HW_MODULE_ID_PART 0
-#define ARDUINO_ID_PART   7
 
 typedef void (*userCallbackType)(JsonObject &payload);
 
 class WroobImp {
 public:
-    WroobImp(char *type);
+    WroobImp(int typeId, char *type);
 
     void begin(userCallbackType clbk);
     void feed();
@@ -64,6 +63,7 @@ private:
     char subId[12];
     char pubId[13];
     char *moduleType;
+	int moduleTypeId;
 
     bool registered;
     static WroobImp *obj;

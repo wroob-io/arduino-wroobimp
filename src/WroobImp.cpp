@@ -9,7 +9,10 @@
 
 WroobImp *WroobImp::obj = NULL;
 
-WroobImp::WroobImp(char *type) : registered(false), userClbkFun(NULL), moduleType(type) {
+WroobImp::WroobImp(int typeId, char *type) : registered(false), 
+											  userClbkFun(NULL), 
+											  moduleTypeId(typeId), 
+											  moduleType(type) {
     //empty
 }
 
@@ -105,8 +108,8 @@ void WroobImp::reverseBytes(void *start, int size) {
 void WroobImp::createIdValues(char *in, char *out) {
     unsigned char buf[4];
 
-    buf[0] = (HW_MODULE_ID_PART << 4) + (ARDUINO_ID_PART >> 4);
-    buf[1] = ((0x0F & ARDUINO_ID_PART) << 4) + (0x0F & UniqueID8[2]);
+    buf[0] = (HW_MODULE_ID_PART << 4) + (moduleTypeId >> 4);
+    buf[1] = ((0x0F & moduleTypeId) << 4) + (0x0F & UniqueID8[2]);
     buf[2] = UniqueID8[4];
     buf[3] = UniqueID8[6];
 

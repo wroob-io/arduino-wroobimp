@@ -12,7 +12,7 @@
 // WroobImp constructor takes a "type"
 // of your new Wroob module as an argument
 // eam - example arduino module
-WroobImp wroob("eam");
+WroobImp wroob(128, "eam");
 
 // init JSON object for creating outgoing messages
 StaticJsonDocument<80> event;
