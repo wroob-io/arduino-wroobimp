@@ -9,15 +9,15 @@
 #define WROOBIMP_H_
 
 #include "Arduino.h"
-#include "HardwareSerial.h"
 #include "ArduinoJson.h"
 #include "ArduinoUniqueID.h"
+#include "HardwareSerial.h"
 #include "TimerOne.h"
 
-#define BAUDRATE 115200  // UART communication baudrate
-#define READ_TMEOUT 10  // timeout for reading from UART
-#define LENGTH_SIZE 4    // number of bytes describing msg length
-#define PING_PERIOD 750000  // ping message is sent with 750ms period
+#define BAUDRATE 115200          // UART communication baudrate
+#define READ_TMEOUT 10           // timeout for reading from UART
+#define LENGTH_SIZE 4            // number of bytes describing msg length
+#define PING_PERIOD 750000       // ping message is sent with 750ms period
 #define REGISTER_PERIOD 1200000  // register message is sent with 1200ms period
 
 #ifndef MAX_IMP_IN_MESSAGE
@@ -31,16 +31,16 @@
 typedef void (*userCallbackType)(JsonObject &payload);
 
 class WroobImp {
-public:
+   public:
     WroobImp(int typeId, char *typeStr);
 
     void begin(userCallbackType clbk);
     void feed();
     static void wroobRoutine();
-    bool isRegistered() {return registered;};
+    bool isRegistered() { return registered; };
     void sendMessage(JsonDocument &payload);
 
-private:
+   private:
     int readSize();
     int readBody();
     unsigned long computeLength(char *buff, int size);
@@ -63,7 +63,7 @@ private:
     char subId[12];
     char pubId[13];
     char *moduleTypeStr;
-	int moduleTypeId;
+    int moduleTypeId;
 
     bool registered;
     static WroobImp *obj;
