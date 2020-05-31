@@ -9,8 +9,9 @@
 
 WroobImp *WroobImp::obj = NULL;
 
-WroobImp::WroobImp(char *type) : registered(false), userClbkFun(NULL), moduleType(type) {
-    //empty
+WroobImp::WroobImp(int typeId, char *typeStr)
+    : registered(false), userClbkFun(NULL), moduleTypeId(typeId), moduleTypeStr(typeStr) {
+    // empty
 }
 
 void WroobImp::begin(userCallbackType clbk) {
@@ -91,8 +92,8 @@ unsigned long WroobImp::computeLength(char *buff, int size) {
 };
 
 void WroobImp::reverseBytes(void *start, int size) {
-    char *lo = (char *) start;
-    char *hi = (char *) start + size - 1;
+    char *lo = (char *)start;
+    char *hi = (char *)start + size - 1;
     char swap;
 
     while (lo < hi) {
@@ -105,8 +106,8 @@ void WroobImp::reverseBytes(void *start, int size) {
 void WroobImp::createIdValues(char *in, char *out) {
     unsigned char buf[4];
 
-    buf[0] = (HW_MODULE_ID_PART << 4) + (ARDUINO_ID_PART >> 4);
-    buf[1] = ((0x0F & ARDUINO_ID_PART) << 4) + (0x0F & UniqueID8[2]);
+    buf[0] = (WROOB_MODULE_IMPLEMENTATION_TYPE_ARDUINO << 4) + (moduleTypeId >> 4);
+    buf[1] = ((0x0F & moduleTypeId) << 4) + (0x0F & UniqueID8[2]);
     buf[2] = UniqueID8[4];
     buf[3] = UniqueID8[6];
 
@@ -126,10 +127,9 @@ void WroobImp::sendPing() {
 
 void WroobImp::sendJsonDataOut() {
     char length[LENGTH_SIZE];
-    unsigned long msgLen =  measureJson(jsonDataOut);
+    unsigned long msgLen = measureJson(jsonDataOut);
 
-    if (msgLen > MAX_IMP_OUT_MESSAGE)
-        return;
+    if (msgLen > MAX_IMP_OUT_MESSAGE) return;
 
     memcpy(length, &msgLen, LENGTH_SIZE);
     reverseBytes(length, LENGTH_SIZE);
@@ -143,7 +143,7 @@ void WroobImp::handleIncomingMSg() {
         return;
     }
 
-    //Check if this is event for system reset
+    // Check if this is event for system reset
     if (!jsonDataIn["pl"]["ev"].isNull() && strcmp(jsonDataIn["pl"]["ev"], "started") == 0) {
         if (registered) {
             Timer1.restart();
@@ -154,7 +154,7 @@ void WroobImp::handleIncomingMSg() {
         return;
     }
 
-    //Check if this is result for register request
+    // Check if this is result for register request
     if (!jsonDataIn["pl"]["result"].isNull() && strcmp(jsonDataIn["pl"]["result"], "OK") == 0) {
         if (!registered) {
             Timer1.restart();
@@ -169,7 +169,7 @@ void WroobImp::handleIncomingMSg() {
         return;
     }
 
-    //Otherwise pass payload to user
+    // Otherwise pass payload to user
     JsonObject plObj = jsonDataIn.getMember("pl").as<JsonObject>();
     userClbkFun(plObj);
 }
@@ -194,7 +194,7 @@ void WroobImp::createRegisterMsg() {
     jsonDataOut["top"] = "register";
     jsonDataOut["pl"]["pub_id"] = pubId;
     jsonDataOut["pl"]["sub_id"] = subId;
-    jsonDataOut["pl"]["type"] = moduleType;
+    jsonDataOut["pl"]["type"] = moduleTypeStr;
 }
 
 void WroobImp::createPing() {
